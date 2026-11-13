@@ -1,10 +1,14 @@
+# Maintainer: shbernal <shbernal.01@gmail.com>
+# Contributor: greenlaser sanderveski@gmai.com>
+# Issues and fixes: https://github.com/shbernal/aur-packages
+
 pkgname=kalamake
 pkgver=2.0.3
 pkgrel=1
-pkgdesc="KalaMake build system"
+pkgdesc="Fast, lightweight C++ build system"
 arch=('x86_64')
 url="https://github.com/kalakit/kalamake"
-license=('ZLIB')
+license=('Zlib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('4417cf47f845b30ed1df8b78368c3343da1d85aad625041e10bc166f9422d89e')
 depends=('glibc' 'gcc-libs')
@@ -17,13 +21,15 @@ build() {
     cd build/release-linux
 
     clang++ -DLIB_STATIC -std=c++20 \
+        $CXXFLAGS \
         ../../src/*.cpp \
         ../../src/*/*.cpp \
         -I../../include \
         -I../../external/kalaheaders/include \
         -I../../external/kalacli/include \
         ../../external/kalacli/libkalacli.a \
-        -o kalamake
+        -o kalamake \
+        $LDFLAGS
 }
 package() {
     cd "$srcdir/KalaMake-$pkgver"
